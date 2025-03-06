@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CERTS_DIR="/etc/nginx/certs"
+CERTS_DIR="certs"
 
 CERT_FILE="$CERTS_DIR/cert.pem"
 KEY_FILE="$CERTS_DIR/privkey.pem"
