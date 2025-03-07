@@ -7,6 +7,6 @@ COPY tools/script.sh /etc/nginx/tools/script.sh
 
 RUN chmod +x /etc/nginx/tools/script.sh
 
-EXPOSE 443
+EXPOSE 3000
 
-CMD ["sh", "-c", "/usr/sbin/nginx -g 'daemon off;' && sh /etc/nginx/tools/script.sh"]
+CMD ["sh", "-c", "sh /etc/nginx/tools/script.sh && /usr/sbin/nginx -g 'daemon off;'"]
