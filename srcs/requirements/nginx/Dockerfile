@@ -9,4 +9,4 @@ RUN chmod +x /etc/nginx/tools/script.sh
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "sh /etc/nginx/tools/script.sh && /usr/sbin/nginx -g 'daemon off;'"]
+CMD ["sudo sh", "-c", "sh /etc/nginx/tools/script.sh && /usr/sbin/nginx -g 'daemon off;'"]
