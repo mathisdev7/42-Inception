@@ -1,15 +1,12 @@
 FROM debian:bullseye
 
-# download and install nginx
 RUN apt update && apt install -y nginx openssl
 
-# copy the default configuration file
 COPY conf/default /etc/nginx/conf.d/default.conf
-
 COPY tools/script.sh /etc/nginx/tools/script.sh
 
-# expose port 443
+RUN chmod +x /etc/nginx/tools/script.sh
+
 EXPOSE 443
 
-# start nginx with daemon off
-CMD ["nginx", "-g", "daemon off;" "sh", "/etc/nginx/tools/script.sh"]
+CMD ["sh", "-c", "/usr/sbin/nginx -g 'daemon off;' && sh /etc/nginx/tools/script.sh"]
