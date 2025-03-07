@@ -1,0 +1,12 @@
+FROM mariadb:10.5
+
+ENV MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+ENV MYSQL_DATABASE=${DB_NAME}
+ENV MYSQL_USER=${DB_USER}
+ENV MYSQL_PASSWORD=${DB_PASSWORD}
+
+COPY ./tools/init.sql /docker-entrypoint-initdb.d/
+
+EXPOSE 3306
+
+CMD ["mysqld"]
