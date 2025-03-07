@@ -11,3 +11,5 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/C=FR/ST=Ile-de-France/L=Paris/O=MyCompany/CN=localhost"
 
 echo "✅ Certificat généré avec succès !"
+
+chmod 600 "$KEY_FILE" "$CERT_FILE"
