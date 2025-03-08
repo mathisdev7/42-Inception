@@ -1,15 +1,33 @@
-FROM php:7.4-fpm
+FROM debian:bullseye
 
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd mysqli
+RUN apt update -y \
+    && apt upgrade -y \
+    && apt-get -y install wget \
+    && apt-get install -y php7.4 php7.4-fpm php7.4-mysql php7.4-gd php7.4-xml php7.4-curl php7.4-mbstring php7.4-zip mariadb-client php-redis ftp \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /var/www/html
-RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz \
-    && tar -xvzf wordpress.tar.gz --strip-components=1 \
-    && rm wordpress.tar.gz
+RUN wget https://fr.wordpress.org/wordpress-6.0-fr_FR.tar.gz -P /var/www \
+    && cd /var/www && tar -xzf wordpress-6.0-fr_FR.tar.gz && rm wordpress-6.0-fr_FR.tar.gz
 
-CMD ["php-fpm"]
+RUN chown -R www-data:www-data /var/www/wordpress
+
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
+
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+RUN chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
+
+COPY script/script_wp.sh /usr/local/bin/script_wp.sh
+
+RUN chmod +x /usr/local/bin/script_wp.sh
+
+RUN mkdir -p /run/php \
+    && chown -R www-data:www-data /run/php
+
+WORKDIR /var/www/html/
+
+EXPOSE 9000
+
+CMD ["/bin/bash", "-c", "/usr/local/bin/script_wp.sh & /usr/sbin/php-fpm7.4 -F"]

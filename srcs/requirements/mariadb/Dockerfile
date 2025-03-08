@@ -1,12 +1,13 @@
-FROM mariadb:10.5
+FROM debian:bullseye
 
-ENV MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-ENV MYSQL_DATABASE=${DB_NAME}
-ENV MYSQL_USER=${DB_USER}
-ENV MYSQL_PASSWORD=${DB_PASSWORD}
+RUN apt-get update && \
+    apt-get install -y mariadb-server && \
+    chown -R mysql:mysql /var/lib/mysql && \
+    chmod -R 750 /var/lib/mysql
 
-COPY ./tools/init.sql /docker-entrypoint-initdb.d/
+COPY conf/custom-50-server.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY script/script_mariadb.sh /usr/local/bin/script_mariadb.sh
+RUN chmod +x /usr/local/bin/script_mariadb.sh && \
+    ls -l /usr/local/bin/script_mariadb.sh
 
-EXPOSE 3306
-
-CMD ["mysqld"]
+CMD ["/usr/local/bin/script_mariadb.sh"]

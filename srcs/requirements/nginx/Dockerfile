@@ -1,16 +1,21 @@
 FROM debian:bullseye
 
-RUN apt update && apt install -y nginx openssl
+RUN apt update && \
+    apt install -y nginx vim openssl
 
-COPY conf/default.conf /etc/nginx/conf.d/default.conf
-COPY tools/script.sh /etc/nginx/tools/script.sh
+RUN mkdir -p /etc/nginx/ssl && \
+    openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+        -out /etc/nginx/ssl/mazeghou.crt \
+        -keyout /etc/nginx/ssl/mazeghou.key \
+        -subj "/C=FR/ST=Paris/L=Paris/O=42Perpignan/OU=student/CN=mazeghou/"
 
-RUN mkdir -p /etc/nginx/certs /etc/ssl/private
+RUN mkdir -p /var/run/nginx
 
-RUN chmod +x /etc/nginx/tools/script.sh
+COPY ./conf/default.conf /etc/nginx/default.conf
 
-RUN sh /etc/nginx/tools/script.sh
+RUN chmod 755 /var/www/html && \
+    chown -R www-data:www-data /var/www/html
 
 EXPOSE 443
 
-CMD ["sh", "-c", "sh /etc/nginx/tools/script.sh && /usr/sbin/nginx -g 'daemon off;'"]
+CMD ["nginx", "-g", "daemon off;"]
