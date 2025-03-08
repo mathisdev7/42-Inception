@@ -11,4 +11,6 @@ RUN chmod +x /etc/nginx/tools/script.sh
 
 RUN sh /etc/nginx/tools/script.sh
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 443
+
+CMD ["sh", "-c", "sh /etc/nginx/tools/script.sh && /usr/sbin/nginx -g 'daemon off;'"]
