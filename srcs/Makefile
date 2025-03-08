@@ -9,11 +9,11 @@ $(NAME): up
 
 up: create_dir
 	@echo "127.0.0.1 $(HOST_URL)" | sudo tee -a /etc/hosts > $(HIDE) && echo " $(HOST_ADD)"
-	@docker compose -p $(NAME) -f $(COMPOSE) up --build -d || (echo " $(FAIL)" && exit 1)
+	@docker-compose -p $(NAME) -f $(COMPOSE) up --build -d || (echo " $(FAIL)" && exit 1)
 	@echo " $(UP)"
 
 down:
-	@docker compose -p $(NAME) down
+	@docker-compose -p $(NAME) down
 	@echo " $(DOWN)"
 
 create_dir:
@@ -24,7 +24,7 @@ backup:
 	@if [ -d ~/data ]; then sudo tar -czvf ~/data.tar.gz -C ~/ data/ > $(HIDE) && echo " $(BKP)" ; fi
 
 clean:
-	@docker compose -f $(COMPOSE) down -v
+	@docker-compose -f $(COMPOSE) down -v
 	@if [ -n "$$(docker ps -a --filter "name=nginx" -q)" ]; then docker rm -f nginx > $(HIDE) && echo " $(NX_CLN)" ; fi
 	@if [ -n "$$(docker ps -a --filter "name=wordpress" -q)" ]; then docker rm -f wordpress > $(HIDE) && echo " $(WP_CLN)" ; fi
 	@if [ -n "$$(docker ps -a --filter "name=mariadb" -q)" ]; then docker rm -f mariadb > $(HIDE) && echo " $(DB_CLN)" ; fi
