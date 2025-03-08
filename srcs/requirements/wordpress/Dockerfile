@@ -30,4 +30,4 @@ WORKDIR /var/www/html/
 
 EXPOSE 9000
 
-CMD ["/bin/bash", "-c", "/usr/local/bin/script_wp.sh & /usr/sbin/php-fpm7.4 -F"]
+CMD ["/bin/bash", "-c", "/usr/local/bin/script_wp.sh & /usr/sbin/php-fpm7.4 -F -R"]
