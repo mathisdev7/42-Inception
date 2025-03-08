@@ -6,7 +6,7 @@ RUN apt-get update && \
     chmod -R 750 /var/lib/mysql
 
 COPY conf/custom-50-server.conf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY script/script_mariadb.sh /usr/local/bin/script_mariadb.sh
+COPY conf/script_mariadb.sh /usr/local/bin/script_mariadb.sh
 RUN chmod +x /usr/local/bin/script_mariadb.sh && \
     ls -l /usr/local/bin/script_mariadb.sh
 
