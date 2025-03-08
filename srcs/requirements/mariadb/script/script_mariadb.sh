@@ -17,9 +17,11 @@ mysql -u root -p"${MDB_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS '${DB_USER}
 
 mysql -u root -p"${MDB_ROOT_PASSWORD}" -e "GRANT ALL ON ${MDB_DATABASE}.* TO 'frostinho'@'%'; FLUSH PRIVILEGES;"
 
-mysql -u root -p"${MDB_ROOT_PASSWORD}" -e "GRANT ALL ON ${MDB_DATABASE}.* TO 'root'@'%' IDENTIFIED BY '${MDB_ROOT_PASSWORD}'; FLUSH PRIVILEGES;"
+mysql -u root -p"${MDB_ROOT_PASSWORD}" -e "GRANT ALL ON ${MDB_DATABASE}.* TO 'frostinho'@'wordpress.42-inception_inception' IDENTIFIED BY '${DB_PASSWORD}'; FLUSH PRIVILEGES;"
 
 mysql -u root -p"${MDB_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+
+mysql -u root -p"${MDB_ROOT_PASSWORD}" -e "SHOW GRANTS FOR 'frostinho'@'%';"
 
 mysqladmin -u root -p"${MDB_ROOT_PASSWORD}" shutdown
 
