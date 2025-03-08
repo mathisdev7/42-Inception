@@ -3,7 +3,7 @@ services:
     image: wordpress:latest
     container_name: wordpress
     ports:
-      - "80:80"
+      - "443:443"
     env_file:
       - ./.env
     environment:
@@ -37,7 +37,6 @@ services:
     env_file:
       - ./.env
     ports:
-      - "80:80"
       - "443:443"
     networks:
       - wordpress_net
