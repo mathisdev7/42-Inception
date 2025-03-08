@@ -8,14 +8,14 @@ all:
 	@sudo hostsed add 127.0.0.1 mazeghou.42.fr && echo "added mazeghou.42.fr to /etc/hosts"
 	@sudo mkdir -p /home/mazeghou/data/mariadb
 	@sudo mkdir -p /home/mazeghou/data/wordpress
-	@docker compose up -d --build
+	@sudo -E docker compose up -d --build
 
 down:
 	@sudo hostsed rm 127.0.0.1 mazeghou.42.fr && echo "removed mazeghou.42.fr from /etc/hosts"
-	@docker compose down
+	@sudo -E docker compose down
 
 re:
-	@sudo docker compose up -d --build
+	@sudo -E docker compose up -d --build
 
 clean:
 	@sudo rm -rf /home/mazeghou/data/mariadb
